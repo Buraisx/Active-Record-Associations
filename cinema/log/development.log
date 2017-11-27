@@ -1,0 +1,157 @@
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (7.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateFilms (20171127215413)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "films" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "year" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20171127215413"]]
+  [1m[35m (1.5ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateViewers (20171127215430)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "viewers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20171127215430"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateViewedFilms (20171127215502)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "viewed_films" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "viewer_id" integer, "film_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20171127215502"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2017-11-27 21:57:22.284602"], ["updated_at", "2017-11-27 21:57:22.284602"]]
+  [1m[35m (1.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "viewers" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "William"], ["created_at", "2017-11-27 22:20:58.126649"], ["updated_at", "2017-11-27 22:20:58.126649"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "films" ("title", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "starwars"], ["year", 1995], ["created_at", "2017-11-27 22:20:58.135545"], ["updated_at", "2017-11-27 22:20:58.135545"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mViewer Load (0.2ms)[0m  [1m[34mSELECT  "viewers".* FROM "viewers" ORDER BY "viewers"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mFilm Load (0.2ms)[0m  [1m[34mSELECT  "films".* FROM "films" ORDER BY "films"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to RenameViewedFilms (20171127222254)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "viwed_films" RENAME TO "films_viewers"[0m
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to RenameViewedFilms (20171127222254)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "viewed_films" RENAME TO "films_viewers"[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20171127222254"]]
+  [1m[35m (6.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "viewers" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "William"], ["created_at", "2017-11-27 22:24:04.356227"], ["updated_at", "2017-11-27 22:24:04.356227"]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films" ("title", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "starwars"], ["year", 1995], ["created_at", "2017-11-27 22:24:04.374400"], ["updated_at", "2017-11-27 22:24:04.374400"]]
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mViewer Load (0.2ms)[0m  [1m[34mSELECT  "viewers".* FROM "viewers" ORDER BY "viewers"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mFilm Load (0.2ms)[0m  [1m[34mSELECT  "films".* FROM "films" ORDER BY "films"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films_viewers" ("viewer_id", "film_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["viewer_id", 2], ["film_id", 2], ["created_at", "2017-11-27 22:24:04.396880"], ["updated_at", "2017-11-27 22:24:04.396880"]]
+  [1m[35m (1.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mViewer Load (0.2ms)[0m  [1m[34mSELECT  "viewers".* FROM "viewers" ORDER BY "viewers"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mFilm Load (0.2ms)[0m  [1m[34mSELECT  "films".* FROM "films" INNER JOIN "films_viewers" ON "films"."id" = "films_viewers"."film_id" WHERE "films_viewers"."viewer_id" = ? LIMIT ?[0m  [["viewer_id", 1], ["LIMIT", 11]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "viewers" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "William"], ["created_at", "2017-11-27 22:28:42.646922"], ["updated_at", "2017-11-27 22:28:42.646922"]]
+  [1m[35m (6.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films" ("title", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "starwars"], ["year", 1995], ["created_at", "2017-11-27 22:28:42.665514"], ["updated_at", "2017-11-27 22:28:42.665514"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mViewer Load (0.1ms)[0m  [1m[34mSELECT "viewers".* FROM "viewers"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[31mDELETE FROM "films_viewers" WHERE "films_viewers"."viewer_id" = ?[0m  [["viewer_id", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "viewers" WHERE "viewers"."id" = ?[0m  [["id", 1]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM "films_viewers" WHERE "films_viewers"."viewer_id" = ?[0m  [["viewer_id", 2]]
+  [1m[35mSQL (0.1ms)[0m  [1m[31mDELETE FROM "viewers" WHERE "viewers"."id" = ?[0m  [["id", 2]]
+  [1m[35m (1.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM "films_viewers" WHERE "films_viewers"."viewer_id" = ?[0m  [["viewer_id", 3]]
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "viewers" WHERE "viewers"."id" = ?[0m  [["id", 3]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "viewers" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "William"], ["created_at", "2017-11-27 22:29:16.140540"], ["updated_at", "2017-11-27 22:29:16.140540"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films" ("title", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "starwars"], ["year", 1995], ["created_at", "2017-11-27 22:29:16.148849"], ["updated_at", "2017-11-27 22:29:16.148849"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mViewer Load (0.1ms)[0m  [1m[34mSELECT "viewers".* FROM "viewers"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[31mDELETE FROM "films_viewers" WHERE "films_viewers"."viewer_id" = ?[0m  [["viewer_id", 4]]
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM "viewers" WHERE "viewers"."id" = ?[0m  [["id", 4]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "viewers" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "William"], ["created_at", "2017-11-27 22:29:45.582325"], ["updated_at", "2017-11-27 22:29:45.582325"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films" ("title", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "starwars"], ["year", 1995], ["created_at", "2017-11-27 22:29:45.590395"], ["updated_at", "2017-11-27 22:29:45.590395"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mViewer Load (0.1ms)[0m  [1m[34mSELECT "viewers".* FROM "viewers"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films_viewers" ("viewer_id", "film_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["viewer_id", 5], ["film_id", 5], ["created_at", "2017-11-27 22:29:45.601420"], ["updated_at", "2017-11-27 22:29:45.601420"]]
+  [1m[35m (1.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mViewer Load (0.2ms)[0m  [1m[34mSELECT  "viewers".* FROM "viewers" ORDER BY "viewers"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "films_viewers" ("viewer_id", "film_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["viewer_id", 5], ["film_id", 5], ["created_at", "2017-11-27 22:29:45.606226"], ["updated_at", "2017-11-27 22:29:45.606226"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mViewer Load (0.1ms)[0m  [1m[34mSELECT "viewers".* FROM "viewers"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM "films_viewers" WHERE "films_viewers"."viewer_id" = ?[0m  [["viewer_id", 5]]
+  [1m[35mSQL (0.1ms)[0m  [1m[31mDELETE FROM "viewers" WHERE "viewers"."id" = ?[0m  [["id", 5]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "viewers" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "William"], ["created_at", "2017-11-27 22:30:07.459466"], ["updated_at", "2017-11-27 22:30:07.459466"]]
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films" ("title", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "starwars"], ["year", 1995], ["created_at", "2017-11-27 22:30:07.467025"], ["updated_at", "2017-11-27 22:30:07.467025"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mViewer Load (0.1ms)[0m  [1m[34mSELECT  "viewers".* FROM "viewers" LIMIT ?[0m  [["LIMIT", 11]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mViewer Load (0.1ms)[0m  [1m[34mSELECT "viewers".* FROM "viewers"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[31mDELETE FROM "films_viewers" WHERE "films_viewers"."viewer_id" = ?[0m  [["viewer_id", 6]]
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM "viewers" WHERE "viewers"."id" = ?[0m  [["id", 6]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "viewers" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "William"], ["created_at", "2017-11-27 22:30:32.357674"], ["updated_at", "2017-11-27 22:30:32.357674"]]
+  [1m[35m (1.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films" ("title", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "starwars"], ["year", 1995], ["created_at", "2017-11-27 22:30:32.366067"], ["updated_at", "2017-11-27 22:30:32.366067"]]
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mViewer Load (0.1ms)[0m  [1m[34mSELECT "viewers".* FROM "viewers"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films_viewers" ("viewer_id", "film_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["viewer_id", 7], ["film_id", 7], ["created_at", "2017-11-27 22:30:32.377394"], ["updated_at", "2017-11-27 22:30:32.377394"]]
+  [1m[35m (1.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mViewer Load (0.2ms)[0m  [1m[34mSELECT  "viewers".* FROM "viewers" ORDER BY "viewers"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films_viewers" ("viewer_id", "film_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["viewer_id", 7], ["film_id", 7], ["created_at", "2017-11-27 22:30:32.383663"], ["updated_at", "2017-11-27 22:30:32.383663"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mViewer Load (0.1ms)[0m  [1m[34mSELECT  "viewers".* FROM "viewers" ORDER BY "viewers"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mFilm Load (0.1ms)[0m  [1m[34mSELECT  "films".* FROM "films" INNER JOIN "films_viewers" ON "films"."id" = "films_viewers"."film_id" WHERE "films_viewers"."viewer_id" = ? LIMIT ?[0m  [["viewer_id", 7], ["LIMIT", 11]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "viewers" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "William"], ["created_at", "2017-11-27 22:31:38.159582"], ["updated_at", "2017-11-27 22:31:38.159582"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "films" ("title", "year", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "starwars"], ["year", 1995], ["created_at", "2017-11-27 22:31:38.178289"], ["updated_at", "2017-11-27 22:31:38.178289"]]
+  [1m[35m (1.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mViewer Load (0.2ms)[0m  [1m[34mSELECT  "viewers".* FROM "viewers" ORDER BY "viewers"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "films_viewers" ("viewer_id", "film_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["viewer_id", 8], ["film_id", 8], ["created_at", "2017-11-27 22:31:38.201505"], ["updated_at", "2017-11-27 22:31:38.201505"]]
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m

@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  wage: 9.99
+  name: MyString
+
+two:
+  wage: 9.99
+  name: MyString

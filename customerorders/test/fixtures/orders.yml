@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order_num: 1
+  date: 2017-11-27 13:44:13
+
+two:
+  order_num: 1
+  date: 2017-11-27 13:44:13

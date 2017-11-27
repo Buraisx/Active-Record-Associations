@@ -1,0 +1,73 @@
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (7.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateActors (20171127210635)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "actors" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20171127210635"]]
+  [1m[35m (1.6ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateRoles (20171127210705)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "roles" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "play_id" integer, "actor_id" integer, "role_name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20171127210705"]]
+  [1m[35m (1.3ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreatePlays (20171127210737)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "plays" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "director_id" integer, "play_name" varchar, "play_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20171127210737"]]
+  [1m[35m (1.3ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateDirectors (20171127210807)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "directors" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20171127210807"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2017-11-27 21:10:55.468664"], ["updated_at", "2017-11-27 21:10:55.468664"]]
+  [1m[35m (1.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to RemovePlayId (20171127211124)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aplays" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "director_id" integer DEFAULT NULL, "play_name" varchar DEFAULT NULL, "play_id" integer DEFAULT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aplays" ("id","director_id","play_name","play_id","created_at","updated_at")
+                     SELECT "id","director_id","play_name","play_id","created_at","updated_at" FROM "plays"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "plays"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "plays" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "director_id" integer DEFAULT NULL, "play_name" varchar DEFAULT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "plays" ("id","director_id","play_name","created_at","updated_at")
+                     SELECT "id","director_id","play_name","created_at","updated_at" FROM "aplays"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aplays"[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20171127211124"]]
+  [1m[35m (6.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "actors" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "william"], ["created_at", "2017-11-27 21:22:57.203770"], ["updated_at", "2017-11-27 21:22:57.203770"]]
+  [1m[35m (1.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "roles" ("play_id", "actor_id", "role_name", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["play_id", 1], ["actor_id", 1], ["role_name", "dishwasher"], ["created_at", "2017-11-27 21:22:57.217728"], ["updated_at", "2017-11-27 21:22:57.217728"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mDirector Load (0.1ms)[0m  [1m[34mSELECT  "directors".* FROM "directors" WHERE "directors"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "directors" ("name", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["name", "john"], ["created_at", "2017-11-27 21:22:57.246981"], ["updated_at", "2017-11-27 21:22:57.246981"]]
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActor Load (0.1ms)[0m  [1m[34mSELECT  "actors".* FROM "actors" ORDER BY "actors"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActor Load (0.2ms)[0m  [1m[34mSELECT  "actors".* FROM "actors" ORDER BY "actors"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActor Load (0.2ms)[0m  [1m[34mSELECT  "actors".* FROM "actors" ORDER BY "actors"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mRole Load (0.1ms)[0m  [1m[34mSELECT  "roles".* FROM "roles" ORDER BY "roles"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mRole Load (0.2ms)[0m  [1m[34mSELECT  "roles".* FROM "roles" ORDER BY "roles"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mActor Load (0.4ms)[0m  [1m[34mSELECT  "actors".* FROM "actors" WHERE "actors"."role_id" = ? LIMIT ?[0m  [["role_id", 1], ["LIMIT", 11]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActor Load (0.1ms)[0m  [1m[34mSELECT  "actors".* FROM "actors" ORDER BY "actors"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mRole Load (0.1ms)[0m  [1m[34mSELECT  "roles".* FROM "roles" WHERE "roles"."actor_id" = ? LIMIT ?[0m  [["actor_id", 1], ["LIMIT", 11]]
