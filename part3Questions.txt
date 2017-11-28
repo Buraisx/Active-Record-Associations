@@ -1,0 +1,39 @@
+First returns the first object fetched by SELECT * FROM Album ORDER BY Album.id LIMIT 1 
+
+tracks retrieves tracks from the database
+
+pluck returns an array of attributes type casted to match arguments given
+
+1. 
+a = Album.where(title: "Vinicius De Moraes")
+a.first.tracks.pluck(:name)
+
+["Pela Luz Dos Olhos Teus", "A Bencao E Outros", "Tudo Na Mais Santa Paz", "O Velho E Aflor", "Cotidiano N 2", "Adeus", "So Por Amor", "Meu Pranto Rolou", "Mulher Carioca", "Samba Do Jato", "Oi, La", "Vinicius, Poeta Do Encontro", "Soneto Da Separacao", "Samba Pra Endrigo", "Um Homem Chamado Alfredo"]
+
+2.
+a = Artist.where(name: "Philip Glass Ensemble")
+a.first.albums.pluck(:title)
+
+["Koyaanisqatsi (Soundtrack from the Motion Picture)"]
+
+3.
+a = Playlist.where(name: "Brazilian Music")
+a.first.tracks.pluck(:name)
+
+["Sozinho", "Odara", "A Luz De Tieta", "Vai Passar", "A Banda", "Garota De Ipanema", "Tarde Em Itapoã", "O Que É O Que É ?", "Voce e Linda", "Sampa", "Admirável Gado Novo", "Açai", "Meu Bem-Querer", "Samurai", "Sina", "Fascinação", "Madalena", "Palco (Live)", "Quanta (Live)", "A Novidade (Live)", "A Novidade", "Filho Maravilha", "Coração De Estudante", "Nos Bailes Da Vida", "Maria, Maria", "Chocolate", "Azul Da Cor Do Mar", "Não Vou Ficar", "Gostava Tanto De Você", "Você", "Não Quero Dinheiro", "Bye, Bye Brasil", "Malandragem", "Esquinas", "O Bêbado e a Equilibrista", "Selassiê", "Taj Mahal", "O Descobridor Dos Sete Mares"]
+
+4.
+a = Genre.where(name: "Jazz")
+a.first.tracks.pluck(:name)
+
+
+5-7 are this way because Tracks is in a 1 to many relationship with tracks being many
+5. 
+a = Track.where(name: "My Time After Awhile")
+a.first.genre
+
+6.
+a.first.media_type
+
+7.
+a.first.album
